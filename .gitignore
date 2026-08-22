@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 .env
+.TODO.txt
 ### STS ###
 .apt_generated
 .classpath
