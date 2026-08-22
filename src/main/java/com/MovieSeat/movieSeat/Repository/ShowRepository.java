@@ -1,6 +1,7 @@
 package com.MovieSeat.movieSeat.Repository;
 
 import com.MovieSeat.movieSeat.Entity.City;
+import com.MovieSeat.movieSeat.Entity.Movie;
 import com.MovieSeat.movieSeat.Entity.MovieShow;
 import com.MovieSeat.movieSeat.Entity.Theatre;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,6 +14,7 @@ import java.util.Optional;
 @Repository
 public interface ShowRepository extends JpaRepository<MovieShow,String> {
     Optional<MovieShow> findByShowId(String id);
+    Optional<MovieShow> findByMovie(Movie movie);
     Optional<List<MovieShow>> findByTheatre(Theatre theatre);
     Optional<List<MovieShow>> findByCity(City city);
     Optional<List<MovieShow>> findByShowStartDate(LocalDate date);

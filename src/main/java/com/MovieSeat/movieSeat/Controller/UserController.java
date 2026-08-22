@@ -55,6 +55,9 @@ public class UserController {
     @Autowired
     showService showService;
 
+    @Autowired
+    ReviewService reviewService;
+
     @PostMapping("/user/add")
     public ResponseEntity<String> create(@ModelAttribute UserRequest request) throws AccountExisitException {
         return userService.createUser(request);
@@ -119,7 +122,7 @@ public class UserController {
     }
 
     @GetMapping("/user/getallTheatre")
-    public List<TheatreResponse> getall(){
+    public List<TheatreResponse> getallTheatre(){
         return theatreService.getAllTheatre();
     }
 
@@ -204,6 +207,53 @@ public class UserController {
     public List<String> getAllScreen(@RequestParam("theatreName")String theatreName,@RequestParam("city")String city){
        return screenService.getAllScreen(theatreName,city);
     }
+
+    @GetMapping("/user/getLatestBooking")
+    public BookingResponse getlatestBookings(){
+        return bookingService.getLatestBookingByUser();
+    }
+
+    @GetMapping("user/getAllBookings")
+    public List<BookingResponse> getallBookings(){
+        return bookingService.getAllBookingsByUser();
+    }
+
+    @PostMapping("/user/addReview")
+    public ResponseEntity<?> addReeview(@ModelAttribute ReviewRequest request){
+        return reviewService.addReview(request);
+    }
+
+    @DeleteMapping("/user/deletereviewsofMovie")
+    public ResponseEntity<?> deleteallMReviesOfMovieByUser(@RequestParam("moveiName")String movieName){
+        return reviewService.deleteReviewsByUser(movieName);
+    }
+
+    @DeleteMapping("/user/deletereviewById")
+    public ResponseEntity<?> removeReview(@RequestParam("id")String id){
+        return reviewService.deleteReviewById(id);
+    }
+
+    @GetMapping("/user/getMovieById")
+    public ResponseEntity<?> getMoviebyId(@RequestParam("movieName")String movieName){
+        return movieService.movieByMovieId(movieName);
+    }
+
+    @GetMapping("/user/getshowByshowId")
+    public ResponseEntity<?> getshowByShowId(@RequestParam("showId")String showId){
+        return showService.getShowByshowId(showId);
+    }
+
+    @GetMapping("/user/showsByMovie")
+    public ResponseEntity<?> getshowsByMovie(@RequestParam("movieName")String movieName){
+        return showService.getShowsByMovie(movieName);
+    }
+
+
+
+
+
+
+
 
 
 }

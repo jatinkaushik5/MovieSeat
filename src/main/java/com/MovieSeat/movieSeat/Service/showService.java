@@ -230,6 +230,57 @@ public class showService {
     }
 
 
+    public ResponseEntity<?> getShowByshowId(String showId) {
+        MovieShow show = showRepository.findByShowId(showId).orElse(null);
+
+        if (show == null) {
+            return ResponseEntity.badRequest().body("Show Not found");
+        } else {
+            ShowResponse response = new ShowResponse();
+            response.setLocation(show.getTheatre().getLocation());
+            response.setShowId(show.getShowId());
+            response.setShowdate(show.getShowStartDate());
+            response.setTheatre(show.getTheatre().getName());
+            response.setMovie(show.getMovie().getName());
+            response.setCity(show.getCity().getName());
+            response.setTime(show.getTime());
+            return ResponseEntity.ok(response);
+        }
+
+    }
+
+    public ResponseEntity<?> getShowsByMovie(String movieName){
+        Movie movie=movieRepository.findByName(movieName).orElse(null);
+        if(movie==null){
+            return ResponseEntity.badRequest().body("Movie not found");
+        }
+        else{
+            List<MovieShow> shows=showRepository.findByMovie(movie).orElse(null);
+
+            if(shows==null){
+                return ResponseEntity.badRequest().body("No show present for this movie");
+            }
+            else{
+                List<ShowResponse> responses=new ArrayList<>();
+                for(MovieShow show:shows){
+                    ShowResponse response = new ShowResponse();
+                    response.setLocation(show.getTheatre().getLocation());
+                    response.setShowId(show.getShowId());
+                    response.setShowdate(show.getShowStartDate());
+                    response.setTheatre(show.getTheatre().getName());
+                    response.setMovie(show.getMovie().getName());
+                    response.setCity(show.getCity().getName());
+                    response.setTime(show.getTime());
+                    responses.add(response);
+                }
+                return ResponseEntity.ok(responses);
+            }
+        }
+    }
+
+
+
+
 
 
 

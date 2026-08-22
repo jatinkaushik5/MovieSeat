@@ -10,6 +10,7 @@ import com.MovieSeat.movieSeat.io.MovieRequest;
 import com.MovieSeat.movieSeat.io.MovieResponse;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
@@ -144,4 +145,24 @@ public class MovieService {
         }
         return movieResponses;
     }
-}
+
+
+    public ResponseEntity<?> movieByMovieId(String movieId){
+        Movie movie=movieRepository.findByMovieId(movieId).orElse(null);
+        if(movie==null){
+            return null;
+        }
+        MovieResponse response=new MovieResponse();
+        response.setMovieId(movie.getMovieId());
+        response.setDescription(movie.getDescription());
+        response.setLanguage(movie.getLanguage());
+        response.setPoster(movie.getPosterUrl());
+        response.setName(movie.getName());
+        response.setRating(movie.getRating());
+        response.setReleaseDate(movie.getReleaseDate());
+
+        return  ResponseEntity.ok(response);
+
+    }
+
+ }

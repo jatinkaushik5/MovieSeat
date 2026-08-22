@@ -1,0 +1,91 @@
+====================================================
+  MovieSeat Project - Things Left To Implement
+====================================================
+Generated On: 2026-08-21
+
+----------------------------------------------------
+1. MISSING API ENDPOINTS (High Priority)
+----------------------------------------------------
+
+[1.1] GET /user/getLatestBooking
+      - Service method: BookingService.getLatestBookingByUser()
+      - Method is WRITTEN in BookingService but NO controller endpoint exists
+      - Add in UserController.java
+
+[1.2] GET /user/getAllBookings
+      - Service method: BookingService.getAllBookingsByUser()
+      - Method is WRITTEN in BookingService but NO controller endpoint exists
+      - Add in UserController.java
+
+----------------------------------------------------
+2. REVIEW FEATURE (Medium Priority)
+----------------------------------------------------
+
+[2.1] Create ReviewService.java
+      - addReview(reviewRequest, authentication)
+      - getReviewsByMovie(movieId)
+      - deleteReview(reviewId, authentication)
+      - updateReview(reviewRequest, authentication)
+
+[2.2] Create Review API Endpoints
+      - POST   /user/addReview
+      - GET    /user/getReviews?movieId=
+      - DELETE /user/deleteReview?id=
+      - PATCH  /user/updateReview
+
+      NOTE: ReviewRepository already exists, just needs Service + Controller wiring.
+
+----------------------------------------------------
+3. PAYMENT IMPROVEMENTS (Medium Priority)
+----------------------------------------------------
+
+[3.1] Remove hardcoded test payment method
+      - Currently using "pm_card_visa" (test card) in BookingService.ConfirmBooking()
+      - Should accept real paymentMethodId from frontend
+
+[3.2] Add Stripe Webhook Endpoint
+      - POST /payment/webhook
+      - Handle Stripe payment_intent.succeeded and payment_intent.payment_failed events
+      - Update booking status based on webhook event
+
+[3.3] GET /user/getPaymentStatus?bookingId=
+      - Return the payment/booking status for a given booking
+
+----------------------------------------------------
+4. MISSING FETCH APIs (Low Priority)
+----------------------------------------------------
+
+[4.1] GET /user/getMovieById?id=
+      - No endpoint to fetch a single movie by ID
+      - Useful for movie detail page on frontend
+
+[4.2] GET /user/getShowById?id=
+      - No endpoint to fetch a single show by ID for users
+      - Only seat info is fetchable per show, not full show details
+
+[4.3] GET /user/getShowsByMovie?movieName=
+      - No endpoint to fetch all shows for a specific movie
+
+----------------------------------------------------
+5. GENERAL IMPROVEMENTS (Optional / Refactor)
+----------------------------------------------------
+
+[5.1] Global Exception Handler
+      - No @ControllerAdvice / @ExceptionHandler exists
+      - Only AccountExistException is defined, no global handler
+
+[5.2] Input Validation
+      - No @Valid / @NotNull annotations on request bodies
+      - Add Jakarta Bean Validation to DTOs
+
+[5.3] Booking Expiry Cleanup
+      - Booking.expiresAt is set (3 min expiry) but ShowScheduler exists
+      - Verify scheduler actually releases expired/unpaid seats (marks booked=false)
+
+[5.4] Admin - Get All Bookings
+      - No admin endpoint to view all bookings in the system
+
+[5.5] Admin - Get Bookings by User
+      - No admin endpoint to look up bookings for a specific user
+
+====================================================
